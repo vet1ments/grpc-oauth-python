@@ -1,0 +1,6 @@
+grpclib==0.4.7
+h2==4.1.0
+hpack==4.0.0
+hyperframe==6.0.1
+multidict==6.1.0
+protobuf==5.28.2
