@@ -29,6 +29,10 @@ class UserServiceBase(abc.ABC):
     async def UserLogout(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, grpcoauth.v1.user_pb2.UserLogoutResponse]') -> None:
         pass
 
+    @abc.abstractmethod
+    async def GetUserList(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, grpcoauth.v1.user_pb2.GetUserListResponse]') -> None:
+        pass
+
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
         return {
             '/grpcoauth.v1.UserService/GetAccessTokenInfo': grpclib.const.Handler(
@@ -48,6 +52,12 @@ class UserServiceBase(abc.ABC):
                 grpclib.const.Cardinality.UNARY_UNARY,
                 google.protobuf.empty_pb2.Empty,
                 grpcoauth.v1.user_pb2.UserLogoutResponse,
+            ),
+            '/grpcoauth.v1.UserService/GetUserList': grpclib.const.Handler(
+                self.GetUserList,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                google.protobuf.empty_pb2.Empty,
+                grpcoauth.v1.user_pb2.GetUserListResponse,
             ),
         }
 
@@ -72,4 +82,10 @@ class UserServiceStub:
             '/grpcoauth.v1.UserService/UserLogout',
             google.protobuf.empty_pb2.Empty,
             grpcoauth.v1.user_pb2.UserLogoutResponse,
+        )
+        self.GetUserList = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/grpcoauth.v1.UserService/GetUserList',
+            google.protobuf.empty_pb2.Empty,
+            grpcoauth.v1.user_pb2.GetUserListResponse,
         )

@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 setup(
 name="grpc-oauth-vet1ments",
-version="2.0.41",
+version="3.0.10",
 description="assistant proto",
 long_description="s",
 long_description_content_type="text/markdown",
