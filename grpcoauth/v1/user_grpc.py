@@ -30,7 +30,7 @@ class UserServiceBase(abc.ABC):
         pass
 
     @abc.abstractmethod
-    async def GetUserList(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, grpcoauth.v1.user_pb2.GetUserListResponse]') -> None:
+    async def GetUserList(self, stream: 'grpclib.server.Stream[grpcoauth.v1.user_pb2.GetUserListRequest, grpcoauth.v1.user_pb2.GetUserListResponse]') -> None:
         pass
 
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
@@ -56,7 +56,7 @@ class UserServiceBase(abc.ABC):
             '/grpcoauth.v1.UserService/GetUserList': grpclib.const.Handler(
                 self.GetUserList,
                 grpclib.const.Cardinality.UNARY_UNARY,
-                google.protobuf.empty_pb2.Empty,
+                grpcoauth.v1.user_pb2.GetUserListRequest,
                 grpcoauth.v1.user_pb2.GetUserListResponse,
             ),
         }
@@ -86,6 +86,6 @@ class UserServiceStub:
         self.GetUserList = grpclib.client.UnaryUnaryMethod(
             channel,
             '/grpcoauth.v1.UserService/GetUserList',
-            google.protobuf.empty_pb2.Empty,
+            grpcoauth.v1.user_pb2.GetUserListRequest,
             grpcoauth.v1.user_pb2.GetUserListResponse,
         )
