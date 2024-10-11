@@ -29,5 +29,7 @@ class GetTokenInfoRequest(_message.Message):
     def __init__(self, token: _Optional[str] = ...) -> None: ...
 
 class GetTokenInfoResponse(_message.Message):
-    __slots__ = ()
-    def __init__(self) -> None: ...
+    __slots__ = ("token",)
+    TOKEN_FIELD_NUMBER: _ClassVar[int]
+    token: str
+    def __init__(self, token: _Optional[str] = ...) -> None: ...
