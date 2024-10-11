@@ -17,11 +17,21 @@ import oauthapp.v1.login_pb2
 class LoginServiceBase(abc.ABC):
 
     @abc.abstractmethod
+    async def GetLoginPage(self, stream: 'grpclib.server.Stream[oauthapp.v1.login_pb2.GetLoginPageRequest, google.api.httpbody_pb2.HttpBody]') -> None:
+        pass
+
+    @abc.abstractmethod
     async def Login(self, stream: 'grpclib.server.Stream[oauthapp.v1.login_pb2.LoginRequest, google.api.httpbody_pb2.HttpBody]') -> None:
         pass
 
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
         return {
+            '/oauthapp.v1.LoginService/GetLoginPage': grpclib.const.Handler(
+                self.GetLoginPage,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                oauthapp.v1.login_pb2.GetLoginPageRequest,
+                google.api.httpbody_pb2.HttpBody,
+            ),
             '/oauthapp.v1.LoginService/Login': grpclib.const.Handler(
                 self.Login,
                 grpclib.const.Cardinality.UNARY_UNARY,
@@ -34,6 +44,12 @@ class LoginServiceBase(abc.ABC):
 class LoginServiceStub:
 
     def __init__(self, channel: grpclib.client.Channel) -> None:
+        self.GetLoginPage = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/oauthapp.v1.LoginService/GetLoginPage',
+            oauthapp.v1.login_pb2.GetLoginPageRequest,
+            google.api.httpbody_pb2.HttpBody,
+        )
         self.Login = grpclib.client.UnaryUnaryMethod(
             channel,
             '/oauthapp.v1.LoginService/Login',

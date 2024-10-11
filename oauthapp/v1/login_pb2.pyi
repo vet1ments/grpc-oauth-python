@@ -6,6 +6,11 @@ from typing import ClassVar as _ClassVar, Optional as _Optional
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
+class GetLoginPageRequest(_message.Message):
+    __slots__ = ()
+    CONTINUE_FIELD_NUMBER: _ClassVar[int]
+    def __init__(self, **kwargs) -> None: ...
+
 class LoginRequest(_message.Message):
     __slots__ = ("id", "pw")
     ID_FIELD_NUMBER: _ClassVar[int]
