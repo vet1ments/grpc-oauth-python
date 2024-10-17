@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
 
 import google.api.httpbody_pb2
 import google.api.annotations_pb2
+import google.protobuf.empty_pb2
 import oauthapp.v1.login_pb2
 
 
@@ -22,6 +23,14 @@ class LoginServiceBase(abc.ABC):
 
     @abc.abstractmethod
     async def Login(self, stream: 'grpclib.server.Stream[oauthapp.v1.login_pb2.LoginRequest, google.api.httpbody_pb2.HttpBody]') -> None:
+        pass
+
+    @abc.abstractmethod
+    async def GetLogoutPage(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, google.api.httpbody_pb2.HttpBody]') -> None:
+        pass
+
+    @abc.abstractmethod
+    async def Logout(self, stream: 'grpclib.server.Stream[google.protobuf.empty_pb2.Empty, google.api.httpbody_pb2.HttpBody]') -> None:
         pass
 
     def __mapping__(self) -> typing.Dict[str, grpclib.const.Handler]:
@@ -36,6 +45,18 @@ class LoginServiceBase(abc.ABC):
                 self.Login,
                 grpclib.const.Cardinality.UNARY_UNARY,
                 oauthapp.v1.login_pb2.LoginRequest,
+                google.api.httpbody_pb2.HttpBody,
+            ),
+            '/oauthapp.v1.LoginService/GetLogoutPage': grpclib.const.Handler(
+                self.GetLogoutPage,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                google.protobuf.empty_pb2.Empty,
+                google.api.httpbody_pb2.HttpBody,
+            ),
+            '/oauthapp.v1.LoginService/Logout': grpclib.const.Handler(
+                self.Logout,
+                grpclib.const.Cardinality.UNARY_UNARY,
+                google.protobuf.empty_pb2.Empty,
                 google.api.httpbody_pb2.HttpBody,
             ),
         }
@@ -54,6 +75,18 @@ class LoginServiceStub:
             channel,
             '/oauthapp.v1.LoginService/Login',
             oauthapp.v1.login_pb2.LoginRequest,
+            google.api.httpbody_pb2.HttpBody,
+        )
+        self.GetLogoutPage = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/oauthapp.v1.LoginService/GetLogoutPage',
+            google.protobuf.empty_pb2.Empty,
+            google.api.httpbody_pb2.HttpBody,
+        )
+        self.Logout = grpclib.client.UnaryUnaryMethod(
+            channel,
+            '/oauthapp.v1.LoginService/Logout',
+            google.protobuf.empty_pb2.Empty,
             google.api.httpbody_pb2.HttpBody,
         )
 
